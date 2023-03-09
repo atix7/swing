@@ -13,16 +13,19 @@ public class Calculator implements ActionListener {
     JButton decButton, equButton, delButton, clrButton;
     JPanel panel;
 
-    Font myFont = new Font("Ink Free", Font.BOLD, 30);
+    Font myFont1 = new Font("Geeza Pro", Font.BOLD, 30);
+    Font myFont = new Font("Bauhaus 93", Font.PLAIN, 25);
 
     double num1 = 0, num2 = 0, result = 0;
     char operator;
 
+
+
     Calculator() {
         frame = new JFrame("Calculator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(620, 550);
-        frame.setLayout(null);// ninncs layout manager
+        frame.setSize(420, 550);
+        frame.setLayout(null);// there is no layout manager
 
         texfield = new JTextField();
         texfield.setBounds(50, 25, 300, 50);
@@ -49,7 +52,7 @@ public class Calculator implements ActionListener {
 
         for (int i = 0; i < 8; i++) {
             functionButtons[i].addActionListener(this);
-            functionButtons[i].setFont(myFont);
+            functionButtons[i].setFont(myFont1);
             functionButtons[i].setFocusable(false);
         }
 
@@ -70,14 +73,17 @@ public class Calculator implements ActionListener {
         panel.add(numberButtons[2]);
         panel.add(numberButtons[3]);
         panel.add(addButton);
-        panel.add(numberButtons[3]);
-        panel.add(numberButtons[3]);
-        panel.add(numberButtons[3]);
+        panel.add(numberButtons[4]);
+        panel.add(numberButtons[5]);
+        panel.add(numberButtons[6]);
         panel.add(subButton);
-        panel.add(numberButtons[3]);
-        panel.add(numberButtons[3]);
-        panel.add(numberButtons[3]);
+        panel.add(numberButtons[7]);
+        panel.add(numberButtons[8]);
+        panel.add(numberButtons[9]);
         panel.add(mulButton);
+        panel.add(decButton);
+        panel.add(numberButtons[0]);
+        panel.add(equButton);
         panel.add(divButton);
 
 
@@ -94,8 +100,74 @@ public class Calculator implements ActionListener {
 
     }
 
+
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == subButton && num1 == 0) {
+            texfield.setText("-");
+        }
+        for (int i = 0; i < 10; i++) {
+            if (e.getSource() == numberButtons[i]) {
+                texfield.setText(texfield.getText().concat(String.valueOf(i)));
+            }
+        }
+        if (e.getSource() == decButton) {
+            texfield.setText(texfield.getText().concat("."));
+        }
+        if (e.getSource() == addButton) {
+            num1 = Double.parseDouble(texfield.getText());
+            operator = '+';
+            texfield.setText("");
+        }
+        if (e.getSource() == subButton) {
+            num1 = Double.parseDouble(texfield.getText());
+            operator = '-';
+            texfield.setText("");
+        }
+        if (e.getSource() == mulButton) {
+            num1 = Double.parseDouble(texfield.getText());
+            operator = '*';
+            texfield.setText("");
+        }
+        if (e.getSource() == divButton) {
+            num1 = Double.parseDouble(texfield.getText());
+            operator = '/';
+            texfield.setText("");
+        }
 
+        if (e.getSource() == equButton) {
+            num2 = Double.parseDouble(texfield.getText());
+            switch (operator) {
+                case '+':
+                    result = num1 + num2;
+                    break;
+                case '-':
+                    result = num1 - num2;
+                    break;
+                case '*':
+                    result = num1 * num2;
+                    break;
+                case '/':
+                    result = num1 / num2;
+                    break;
+            }
+            texfield.setText(String.valueOf(result));
+            num1 = result;
+        }
+        if (e.getSource() == delButton) {
+            String string = texfield.getText();
+            string = string.substring(0, string.length() - 1);
+            texfield.setText(string);
+
+        }
+        if (e.getSource() == clrButton) {
+            texfield.setText("");
+            num1 = 0;
+            num2 = 0;
+            result = 0;
+        }
     }
+
 }
+
+
