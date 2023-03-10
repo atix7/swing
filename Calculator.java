@@ -4,6 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Calculator implements ActionListener {
+    static void printW() {
+        System.out.println("ww");
+    }
 
     JFrame frame;
     JTextField texfield;
@@ -13,13 +16,14 @@ public class Calculator implements ActionListener {
     JButton decButton, equButton, delButton, clrButton;
     JPanel panel;
 
-    Font myFont1 = new Font("Geeza Pro", Font.BOLD, 30);
     Font myFont = new Font("Bauhaus 93", Font.PLAIN, 25);
 
-    double num1 = 0, num2 = 0, result = 0;
+    double num1 = 0, num2 = 0, result;
     char operator;
 
+    //Method check 2nd "+-*." char pushed?
 
+    //Method check negativ number?
 
     Calculator() {
         frame = new JFrame("Calculator");
@@ -52,7 +56,7 @@ public class Calculator implements ActionListener {
 
         for (int i = 0; i < 8; i++) {
             functionButtons[i].addActionListener(this);
-            functionButtons[i].setFont(myFont1);
+            functionButtons[i].setFont(myFont);
             functionButtons[i].setFocusable(false);
         }
 
@@ -97,13 +101,14 @@ public class Calculator implements ActionListener {
     public static void main(String[] args) {
 
         Calculator calc = new Calculator();
-
     }
 
+    int countDec = 0;
+    int count = 0;
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == subButton && num1 == 0) {
+        if (e.getSource() == subButton && num1 == 0) {                  //My if
             texfield.setText("-");
         }
         for (int i = 0; i < 10; i++) {
@@ -111,15 +116,24 @@ public class Calculator implements ActionListener {
                 texfield.setText(texfield.getText().concat(String.valueOf(i)));
             }
         }
-        if (e.getSource() == decButton) {
-            texfield.setText(texfield.getText().concat("."));
+        if (e.getSource() == decButton) {                               //It is ok now. You can use . only once
+            if (countDec < 1) {
+                texfield.setText(texfield.getText().concat("."));
+                countDec++;
+            }else {
+                texfield.getText();
+            }
         }
         if (e.getSource() == addButton) {
             num1 = Double.parseDouble(texfield.getText());
             operator = '+';
-            texfield.setText("");
+            texfield.setText("+");
         }
         if (e.getSource() == subButton) {
+            count++;
+            if (count>1){
+
+            }
             num1 = Double.parseDouble(texfield.getText());
             operator = '-';
             texfield.setText("");
@@ -138,36 +152,29 @@ public class Calculator implements ActionListener {
         if (e.getSource() == equButton) {
             num2 = Double.parseDouble(texfield.getText());
             switch (operator) {
-                case '+':
-                    result = num1 + num2;
-                    break;
-                case '-':
-                    result = num1 - num2;
-                    break;
-                case '*':
-                    result = num1 * num2;
-                    break;
-                case '/':
-                    result = num1 / num2;
-                    break;
+                case '+' -> result = num1 + num2;
+                case '-' -> result = num1 - num2;
+                case '*' -> result = num1 * num2;
+                case '/' -> result = num1 / num2;
             }
             texfield.setText(String.valueOf(result));
             num1 = result;
         }
-        if (e.getSource() == delButton) {
+        if (e.getSource() == delButton) {                           //My if
             String string = texfield.getText();
             string = string.substring(0, string.length() - 1);
             texfield.setText(string);
 
         }
-        if (e.getSource() == clrButton) {
+        if (e.getSource() == clrButton) {                           //My if
             texfield.setText("");
             num1 = 0;
             num2 = 0;
             result = 0;
         }
     }
-
 }
+
+
 
 
