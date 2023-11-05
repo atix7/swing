@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.math.*;
+
 
 public class Calculator1 implements ActionListener {
     JFrame frame;
@@ -167,7 +167,7 @@ public class Calculator1 implements ActionListener {
         }
         if (e.getSource().equals(addButton)) {
             operator = '+';
-            countAdd ++;
+            countAdd++;
             if (num1Exist && equalWasPushed) {        //Egyenlőség lenyomása után
                 texfield.setText("");
                 countDec = 0;
@@ -193,20 +193,19 @@ public class Calculator1 implements ActionListener {
             texfield.setText("+");
 
         }
-        if (e.getSource().equals(subButton)) {
+        if (e.getSource().equals(subButton)) {  //Az összeadás formáját ide kell másolni.
+            operator = '-';
             if (equalWasPushed) {
                 equalWasPushed = false;
                 tempResult = 0;
                 num1 = Double.parseDouble(texfield.getText());
                 tempResult -= Math.abs(num1);
-                operator = '-';
                 texfield.setText("-");
                 System.out.println("IF num1 " + num1 + " in sub & tempResult " + tempResult);
                 countDec = 0;
             } else {
                 num1 = Double.parseDouble(texfield.getText());
                 tempResult += num1;
-                operator = '-';
                 texfield.setText("-");
                 System.out.println("ELSE num1 " + num1 + " in sub & tempResult " + tempResult);
                 countDec = 0;
