@@ -15,12 +15,10 @@ public class Calculator1 implements ActionListener {
 
     Font myFont = new Font("Bauhaus 93", Font.PLAIN, 25);
     boolean num1Exist = false;
-    boolean num2Exist = false;
     static boolean equalWasPushed = false;
-    double num1, num2 = 0, result, tempResult;   //result, tempresult nem fog kelleni
-    static int countDec = 0, countAdd;
+    double num1, num2 = 0;
+    static int countDec = 0;
     char operator;
-    char dot;
 
     public static double doCalc(double n1, double n2, char operatorCalc) {
         equalWasPushed = true;
@@ -30,32 +28,61 @@ public class Calculator1 implements ActionListener {
                 System.out.println("n1: " + n1 + " + n2: " + n2 + " result " + (n1 + n2) + "\n");
                 n1 = n1 + n2;
                 countDec = 0;
-
+                texfield.setText(String.valueOf(n1));
             }
             case '-' -> {
                 System.out.println("n1: " + n1 + " - n2: " + Math.abs(n2) + " result " + (n1 - Math.abs(n2) + "\n"));
                 n1 = n1 - Math.abs(n2);
                 countDec = 0;
                 System.out.println("hahó");
+                texfield.setText(String.valueOf(n1));
             }
             case '*' -> {
                 System.out.println("n1: " + n1 + " * n2: " + n2 + " result " + (n1 * n2) + "\n");
                 n1 = n1 * n2;
                 countDec = 0;
+                texfield.setText(String.valueOf(n1));
             }
             case '/' -> {
                 System.out.println("n1: " + n1 + " / n2: " + n2 + " result " + (n1 / n2) + "\n");
                 n1 = n1 / n2;
+                //System.out.println("0-val nem lehet osztani");
                 countDec = 0;
+                texfield.setText(String.valueOf(n1));
             }
         }
         System.out.println("***************************************************** doCalc result: ");
         System.out.println(n1);
-        texfield.setText(String.valueOf(n1));
         countDec = 1;
         return n1;
 
     }
+
+    /*public static double multiCheck(boolean num1Ex, boolean equalWP, double n1, double n2, char oper) {
+        if (num1Ex && equalWP) {        //Egyenloség lenyomása után
+            texfield.setText("");
+            countDec = 0;
+        }
+        if (num1Ex) {                         //Második szám beolvasás
+            try {
+                n2 = Double.parseDouble(texfield.getText());
+            } catch (NumberFormatException exception) {
+                System.out.println("Ez nem double mert " + oper + "  jel num2");
+            }
+            n1 = doCalc(n1, n2, oper);
+            countDec = 0;
+        }
+        if (!num1Ex) {                          // Elso szám beolvasás
+            try {
+                n1 = Double.parseDouble(texfield.getText());
+            } catch (NumberFormatException exception) {
+                System.out.println("Ez nem double mert " + oper + "  jel num2");
+            }
+            num1Ex = true;
+            countDec = 0;
+        }
+        return n1;
+    }*/
 
     Calculator1() {
         frame = new JFrame("Calculator");
@@ -165,9 +192,13 @@ public class Calculator1 implements ActionListener {
                 System.out.println("This was already the " + countDec + " -dot!");
             }
         }
-        if (e.getSource().equals(addButton)) {
+        /*if (e.getSource().equals(addButton)) {  //****************** ADD
+            multiCheck(num1Exist, equalWasPushed, num1, num2, operator);
+            texfield.setText("+");
+        }*/
+
+        if (e.getSource().equals(addButton)) {  //****************** ADD  jó
             operator = '+';
-            countAdd++;
             if (num1Exist && equalWasPushed) {        //Egyenlőség lenyomása után
                 texfield.setText("");
                 countDec = 0;
@@ -191,32 +222,68 @@ public class Calculator1 implements ActionListener {
                 countDec = 0;
             }
             texfield.setText("+");
-
         }
-        if (e.getSource().equals(subButton)) {  //Az összeadás formáját ide kell másolni.
+
+        if (e.getSource().equals(subButton)) {   //****************** SUB
             operator = '-';
-            if (equalWasPushed) {
-                equalWasPushed = false;
-                tempResult = 0;
-                num1 = Double.parseDouble(texfield.getText());
-                tempResult -= Math.abs(num1);
-                texfield.setText("-");
-                System.out.println("IF num1 " + num1 + " in sub & tempResult " + tempResult);
-                countDec = 0;
-            } else {
-                num1 = Double.parseDouble(texfield.getText());
-                tempResult += num1;
-                texfield.setText("-");
-                System.out.println("ELSE num1 " + num1 + " in sub & tempResult " + tempResult);
+            if (num1Exist && equalWasPushed) {        //Egyenloség lenyomása után
+                texfield.setText("");
                 countDec = 0;
             }
+            if (num1Exist) {                          //Második szám beolvasás
+                try {
+                    num2 = Double.parseDouble(texfield.getText());
+                } catch (NumberFormatException exception) {
+                    System.out.println("Ez nem double mert - jel num2");
+                }
+                num1 = doCalc(num1, num2, operator);
+                countDec = 0;
+            }
+            if (!num1Exist) {                         // Elso szám beolvasás
+                try {
+                    num1 = Double.parseDouble(texfield.getText());
+                } catch (NumberFormatException exception) {
+                    System.out.println("Ez nem double mert - jel num1");
+                }
+                num1Exist = true;
+                countDec = 0;
+            }
+            texfield.setText("-");
         }
+
         if (e.getSource().equals(mulButton)) {
             num1 = Double.parseDouble(texfield.getText());
             operator = '*';
             texfield.setText("");
             countDec = 0;
         }
+        /*if (e.getSource().equals(mulButton)) {
+            operator = '*';
+            if (num1Exist && equalWasPushed) {        //Egyenloség lenyomása után töröl
+                texfield.setText("");
+                countDec = 0;
+            }
+            if (num1Exist) {                         //Második szám beolvasás
+                try {
+                    num2 = Double.parseDouble(texfield.getText());
+                } catch (NumberFormatException exception) {
+                    System.out.println("Ez nem double mert * jel num2");
+                }
+                num1 = doCalc(num1, num2, operator);
+                countDec = 0;
+            }
+            if (!num1Exist) {                          // Elso szám beolvasás
+                try {
+                    num1 = Double.parseDouble(texfield.getText());
+                } catch (NumberFormatException exception) {
+                    System.out.println("Ez nem double mert * jel num1");
+                }
+                num1Exist = true;
+                countDec = 0;
+            }
+            texfield.setText("*");
+        }*/
+
         if (e.getSource().equals(divButton)) {
             num1 = Double.parseDouble(texfield.getText());
             operator = '/';
@@ -224,8 +291,16 @@ public class Calculator1 implements ActionListener {
             countDec = 0;
         }
         if (e.getSource().equals(negButton)) {
-            num1 = Double.parseDouble(texfield.getText());
-            operator = '+';
+            //num1 = Double.parseDouble(texfield.getText());
+            try {
+                num1 = Double.parseDouble(texfield.getText());
+            } catch (NumberFormatException exception) {
+                System.out.println("Sikertelen parse-olás char-ból double-be");
+                if (operator == '-') {
+                    texfield.setText("+");
+                }
+            }
+            operator = '-';
             texfield.setText("-");
             System.out.println(texfield.getText());
         }
@@ -244,8 +319,6 @@ public class Calculator1 implements ActionListener {
             num1 = doCalc(num1, num2, operator);
             num2 = 0;
             num1Exist = true;
-            num2Exist = false;
-            System.out.println(num1 + "  " + num2);
         }
 
 
@@ -260,10 +333,7 @@ public class Calculator1 implements ActionListener {
             num1 = 0;
             num2 = 0;
             num1Exist = false;
-            num2Exist = false;
-            result = 0;
             countDec = 0;
-            tempResult = 0;
         }
 
     }
