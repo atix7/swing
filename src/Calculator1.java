@@ -46,9 +46,13 @@ public class Calculator1 implements ActionListener {
             case '/' -> {
                 System.out.println("n1: " + n1 + " / n2: " + n2 + " result " + (n1 / n2) + "\n");
                 n1 = n1 / n2;
-                //System.out.println("0-val nem lehet osztani");
+                if(n2==0){
+                    System.out.println("0-val nem lehet osztani");
+                    texfield.setText("0-val nem lehet osztani");
+                }else {
+                    texfield.setText(String.valueOf(n1));
+                }
                 countDec = 0;
-                texfield.setText(String.valueOf(n1));
             }
         }
         System.out.println("***************************************************** doCalc result: ");
