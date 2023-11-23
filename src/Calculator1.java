@@ -307,13 +307,13 @@ public class Calculator1 implements ActionListener {
                 String mark = string1.substring(0, 1);
                 System.out.println(" MArak +1 = " + mark);
                 Double markTest = Double.parseDouble(mark);  //teszteli, hogy műveleti jel-e az első karakter
-                num2 = Double.parseDouble(string1);   //Ha megnyomtad = akkor nem folytathatja a számot az eredmény után
+                num2 = Double.parseDouble(string1);
                 equalWasPushed = true;
                 countDec = 0;
             } catch (NumberFormatException e2) {
                 String string1 = texfield.getText();
                 string1 = string1.substring(1);
-                num2 = Double.parseDouble(string1);   //Ha megnyomtad = akkor nem folytathatja a számot az eredmény után
+                num2 = Double.parseDouble(string1);
                 System.out.println("Cannot end with an operation sign");
 
             }
