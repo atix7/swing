@@ -14,7 +14,7 @@ public class Calculator1 implements ActionListener {
     JPanel panel;
 
     Font myFont = new Font("Bauhaus 93", Font.PLAIN, 25);
-    boolean num1Exist, num2Exist = false;
+    boolean num1Exist = false;
     static boolean equalWasPushed = false;
     double num1, num2 = 0;
     static int countDec = 0;
@@ -275,7 +275,11 @@ public class Calculator1 implements ActionListener {
 
         if (e.getSource().equals(equButton)) {
             try {
-                num2 = Double.parseDouble(texfield.getText());   //Ha megnyomtad = akkor nem folytathatja a számot az eredmény után
+                String string1 = texfield.getText();
+                if (string1.length() > 1) {
+                    string1 = string1.substring(1);
+                    num2 = Double.parseDouble(string1);   //Ha megnyomtad = akkor nem folytathatja a számot az eredmény után
+                }
                 equalWasPushed = true;
                 countDec = 0;
             } catch (NumberFormatException e2) {
