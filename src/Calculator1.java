@@ -251,8 +251,36 @@ public class Calculator1 implements ActionListener {
             }
             texfield.setText("*");
         }
+        if (e.getSource().equals(divButton)) {  //****************** multiplication
+            operator = '/';
+            if (num1Exist && equalWasPushed) {        //Egyenlőség lenyomása után
+                texfield.setText("egyenloe");
+                System.out.println("num1 és egyenloe");
+                countDec = 0;
+            }
+            if (num1Exist && !equalWasPushed) {                         //Második szám beolvasás
+                try {
+                    System.out.println("Most olvasom a num2-t!");
+                    num2 = Double.parseDouble(texfield.getText());
+                } catch (NumberFormatException exception) {
+                    System.out.println("Ez nem double mert / jel num2");
+                }
+                num1 = doCalc(num1, num2, operator);
+                countDec = 0;
+            }
+            if (!num1Exist) {                          // Első szám beolvasás
+                try {
+                    num1 = Double.parseDouble(texfield.getText());
+                    num1Exist = true;
+                    countDec = 0;
+                } catch (NumberFormatException exception) {
+                    System.out.println("Ez nem double mert / jel num1");
+                }
+            }
+            texfield.setText("/");
+        }
 
-        if (e.getSource().equals(divButton)) {
+        /*if (e.getSource().equals(divButton)) {
             num1 = Double.parseDouble(texfield.getText());
             operator = '/';
             texfield.setText("");
@@ -270,20 +298,24 @@ public class Calculator1 implements ActionListener {
             operator = '-';
             texfield.setText("-");
             System.out.println(texfield.getText());
-        }
+        }*/
 
 
         if (e.getSource().equals(equButton)) {
             try {
                 String string1 = texfield.getText();
-                if (string1.length() > 1) {
-                    string1 = string1.substring(1);
-                    num2 = Double.parseDouble(string1);   //Ha megnyomtad = akkor nem folytathatja a számot az eredmény után
-                }
+                String mark = string1.substring(0, 1);
+                System.out.println(" MArak +1 = " + mark);
+                Double markTest = Double.parseDouble(mark);  //teszteli, hogy műveleti jel-e az első karakter
+                num2 = Double.parseDouble(string1);   //Ha megnyomtad = akkor nem folytathatja a számot az eredmény után
                 equalWasPushed = true;
                 countDec = 0;
             } catch (NumberFormatException e2) {
+                String string1 = texfield.getText();
+                string1 = string1.substring(1);
+                num2 = Double.parseDouble(string1);   //Ha megnyomtad = akkor nem folytathatja a számot az eredmény után
                 System.out.println("Cannot end with an operation sign");
+
             }
             System.out.println("***************************************************** equal gomb");
             countDec = 0;
